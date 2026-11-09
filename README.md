@@ -2,7 +2,7 @@
 
 METAR Reader is a small Flask web app that turns cryptic aviation weather reports into plain English. Type in an airport code and it fetches the latest METAR from the NOAA Aviation Weather Center, decodes it, and shows a friendly summary like "Light rain, mist, 51°F, calm winds", with temperature, wind, visibility, clouds and pressure explained underneath.
 
-[![Demo](https://img.shields.io/badge/demo-run%20locally-blue)](#usage)
+[![Demo](https://img.shields.io/badge/demo-run%20locally-blue)](#-usage)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
 
@@ -12,7 +12,7 @@ A METAR is a standardized weather observation issued by airports, usually every 
 
 **Raw METAR (Hillsboro, Oregon):**
 
-```
+```text
 METAR KHIO 092153Z 00000KT 2 1/2SM -RA BR BKN004 OVC023 11/10 A2994
 ```
 
@@ -69,7 +69,7 @@ python app.py
 
 ## 📁 Project structure
 
-```
+```text
 KodeKloud-METAR-Reader/
 ├── app.py                 # Flask app: request handling, API call, page rendering
 ├── decoder.py             # Converts METAR data into plain-English text
