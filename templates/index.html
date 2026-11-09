@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>METAR Reader</title>
+<style>
+  :root { --bg:#eef3f8; --card:#fff; --text:#1c2733; --muted:#5b6b7b; --accent:#2563eb; --err:#b91c1c; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0f1720; --card:#1a2430; --text:#e6edf3; --muted:#93a4b5; --accent:#60a5fa; --err:#f87171; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, sans-serif; background:var(--bg); color:var(--text); }
+  main { max-width:640px; margin:0 auto; padding:32px 16px; }
+  h1 { margin:0 0 4px; } .sub { color:var(--muted); margin:0 0 24px; }
+  form { display:flex; gap:8px; }
+  input { flex:1; min-width:0; padding:12px; font-size:1.1rem; border-radius:8px; border:1px solid var(--muted);
+          background:var(--card); color:var(--text); text-transform:uppercase; }
+  button { padding:12px 20px; font-size:1rem; border:0; border-radius:8px; background:var(--accent);
+           color:#fff; cursor:pointer; }
+  .card { background:var(--card); border-radius:12px; padding:20px; margin-top:24px;
+          box-shadow:0 2px 8px rgba(0,0,0,.08); }
+  .error { color:var(--err); }
+  .headline { font-size:1.4rem; font-weight:600; margin:8px 0 16px; }
+  dl { margin:0; } dt { font-weight:600; margin-top:10px; color:var(--muted); font-size:.85rem; text-transform:uppercase; }
+  dd { margin:2px 0 0; }
+  .badge { display:inline-block; padding:2px 10px; border-radius:99px; color:#fff; font-size:.8rem; }
+  .VFR{background:#16a34a}.MVFR{background:#2563eb}.IFR{background:#dc2626}.LIFR{background:#a21caf}
+  details { margin-top:16px; } pre { white-space:pre-wrap; word-break:break-word; }
+  .meta { color:var(--muted); font-size:.9rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>&#9992;&#65039; METAR Reader</h1>
+  <p class="sub">Enter an airport code (e.g. KHIO, KJFK, EGLL) for the current weather in plain English.</p>
+  <form method="get" action="/">
+    <input name="code" value="{{ code }}" placeholder="Airport code" maxlength="4" autofocus required aria-label="Airport code">
+    <button type="submit">Get weather</button>
+  </form>
+
+  {% if error %}<div class="card error">{{ error }}</div>{% endif %}
+
+  {% if report %}
+  <div class="card">
+    <div class="meta">{{ report.name or report.station }} ({{ report.station }}) &middot; reported {{ report.time }} UTC</div>
+    <div class="headline">{{ report.headline }}</div>
+    <dl>
+      {% for label, text in report.details %}<dt>{{ label }}</dt><dd>{{ text }}</dd>{% endfor %}
+      {% if report.flight_category %}<dt>Flight conditions</dt>
+      <dd><span class="badge {{ report.flight_cat_code }}">{{ report.flight_cat_code }}</span> {{ report.flight_category }}</dd>{% endif %}
+    </dl>
+    <details><summary>Original METAR</summary><pre>{{ report.raw }}</pre></details>
+  </div>
+  {% endif %}
+</main>
+</body>
+</html>
